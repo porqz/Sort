@@ -1,6 +1,25 @@
 (function($) {
 
+	// Usecases:
+	// $(…).sort("title");
+	// $(…).sort("title rating");
+	// $(…).sort("title", "rating");
+	//
+	// $(…).sort(["title"]);
+	// $(…).sort(["title rating"]);
+	// $(…).sort(["title", "rating"]);
+	//
+	// $(…).sort({ by: "title" });
+	// $(…).sort({ by: "title rating" });
+	// $(…).sort({ by: "title rating", order: "desc" });
+	//
+	// $(…).sort({ by: "title rating", order: "desc", extracts: {…} })
+	//
+	// $(…).sort({ by: "title", order: "desc" }, { by: "rating", order: "asc" });
+	//
+
 	$.fn.sort = function() {
+		// TODO: arguments type detections
 
 		/* Settings */
 		var 
