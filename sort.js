@@ -4,12 +4,12 @@ var Extractor = function(rows) {
 };
 
 Extractor.prototype = {
-	extractAs: function(as) {
+	extract: function(from, as) {
 		if (typeof this.extracts[as] != "undefined") {
-			return this.extracts[]
+			return this.extracts[as].apply(from);
 		}
 		else {
-			return settings.extracts["default"].apply(this);
+			return this.extracts.default.apply(from);
 		}
 	},
 
@@ -25,6 +25,7 @@ Extractor.prototype = {
 };
 
 
+// Object which provides sorting
 var Sorter = function(tableNode) {
 	this.rows = this.getRows(tableNode);
 	this.extractor = new Extractor(this.rows);
@@ -71,8 +72,8 @@ Sorter.prototype = {
 			for (var i = 0; i < how.length && compareResult == 0; i++) {
 				var inversed = !!how[i].inversed,
 
-					extractedA = $this.extractor.extractAs.apply(a, how[i].by),
-					extractedB = $this.extractor.extractAs.apply(b, how[i].by);
+					extractedA = $this.extractor.extract(a, how[i].by),
+					extractedB = $this.extractor.extract(b, how[i].by);
 
 				if (inversed) {
 					compareResult = $this.compare(extractedB, extractedA);
