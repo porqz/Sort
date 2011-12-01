@@ -1,5 +1,5 @@
 // Object which provides extracting data from table
-var Extractor = function(rows) {};
+var Extractor = function() {};
 
 Extractor.prototype = {
 	extract: function(from, as) {
