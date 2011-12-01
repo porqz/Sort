@@ -1,7 +1,5 @@
 // Object which provides extracting data from table
-var Extractor = function(rows) {
-	this.tableRows = rows;
-};
+var Extractor = function(rows) {};
 
 Extractor.prototype = {
 	extract: function(from, as) {
@@ -26,15 +24,15 @@ Extractor.prototype = {
 
 
 // Object which provides sorting
-var Sorter = function(tableNode) {
-	this.rows = this.getRows(tableNode);
-	this.extractor = new Extractor(this.rows);
+var Sorter = function(table) {
+	this.rows = this.getRows(table);
+	this.extractor = new Extractor;
 };
 
 Sorter.prototype = {
 	// Should return an array
-	getRows: function(tableNode) {
-		var rows = $(tableNode).toArray();
+	getRows: function(table) {
+		var rows = $(table).childeren("tr").toArray();
 
 		return rows;
 	},
