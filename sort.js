@@ -1,89 +1,103 @@
-// Object which provides extracting data from table
-var Extractor = function() {};
+(function($) {
 
-Extractor.prototype = {
-	extract: function(from, as) {
-		if (typeof this.extracts[as] != "undefined") {
-			return this.extracts[as].apply(from);
-		}
-		else {
-			return this.extracts.default.apply(from);
-		}
-	},
+	// Object which provides extracting data from table
+	var Extractor = function() {};
 
-	extracts: {
-		default: function() {
-			return $.trim(this.text());
-		}
-	},
-
-	addExtract: function(name, extractFunction) {
-		this.extracts[name] = extractFunction;
-	},
-};
-
-
-// Object which provides sorting
-var Sorter = function(table) {
-	this.rows = this.getRows(table);
-	this.extractor = new Extractor;
-};
-
-Sorter.prototype = {
-	// Should return an array
-	getRows: function(table) {
-		var rows = $(table).childeren("tr").toArray();
-
-		return rows;
-	},
-
-	compare: function(a, b) {
-		if (typeof a == "undefined") {
-			return 1;
-		}
-
-		if (typeof b == "undefined") {
-			return -1;
-		}
-
-		if (a == b) {
-			return 0;
-		}
-		else {
-			if (a > b) {
-				return 1;
+	Extractor.prototype = {
+		extract: function(from, as) {
+			if (typeof this.extracts[as] != "undefined") {
+				return this.extracts[as].apply(from);
 			}
 			else {
+				return this.extracts.default.apply(from);
+			}
+		},
+
+		extracts: {
+			default: function() {
+				return $.trim(this.text());
+			}
+		},
+
+		addExtract: function(name, extractFunction) {
+			this.extracts[name] = extractFunction;
+		},
+	};
+
+
+	// Object which provides sorting
+	var Sorter = function(table) {
+		this.rows = this.getRows(table);
+		this.extractor = new Extractor;
+	};
+
+	Sorter.prototype = {
+		// Should return an array
+		getRows: function(table) {
+			var rows = $(table).childeren("tr").toArray();
+
+			return rows;
+		},
+
+		compare: function(a, b) {
+			if (typeof a == "undefined") {
+				return 1;
+			}
+
+			if (typeof b == "undefined") {
 				return -1;
 			}
-		}
-	},
 
-	// How is an array of objects,
-	// example: [{ by: "title" }, { by: "trackNumber", inversed: true }]
-	sort: function(how) {
-		var $this = this;
-
-		$this.rows.sort(function(a, b) {
-			var compareResult = 0;
-
-			for (var i = 0; i < how.length && compareResult == 0; i++) {
-				var inversed = !!how[i].inversed,
-
-					extractedA = $this.extractor.extract(a, how[i].by),
-					extractedB = $this.extractor.extract(b, how[i].by);
-
-				if (inversed) {
-					compareResult = $this.compare(extractedB, extractedA);
+			if (a == b) {
+				return 0;
+			}
+			else {
+				if (a > b) {
+					return 1;
 				}
 				else {
-					compareResult = $this.compare(extractedA, extractedB);
+					return -1;
 				}
 			}
-			
-			return compareResult;
-		});
+		},
 
-		return $this.rows;
+		// How is an array of objects,
+		// example: [{ by: "title" }, { by: "trackNumber", inversed: true }]
+		sort: function(how) {
+			var $this = this;
+
+			$this.rows.sort(function(a, b) {
+				var compareResult = 0;
+
+				for (var i = 0; i < how.length && compareResult == 0; i++) {
+					var inversed = !!how[i].inversed,
+
+						extractedA = $this.extractor.extract(a, how[i].by),
+						extractedB = $this.extractor.extract(b, how[i].by);
+
+					if (inversed) {
+						compareResult = $this.compare(extractedB, extractedA);
+					}
+					else {
+						compareResult = $this.compare(extractedA, extractedB);
+					}
+				}
+				
+				return compareResult;
+			});
+
+			return $this.rows;
+		}
 	}
-}
+
+
+	$.fn.sort = function() {
+		var tables = this;
+
+		tables.each(function() {
+			var table = $(this);
+
+			
+		});
+	}
+})(jQuery);
