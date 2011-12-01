@@ -34,7 +34,7 @@
 	Sorter.prototype = {
 		// Should return an array
 		getRows: function(table) {
-			var rows = $(table).childeren("tr").toArray();
+			var rows = $(table).children("tr").toArray();
 
 			return rows;
 		},
@@ -91,13 +91,23 @@
 	}
 
 
-	$.fn.sort = function() {
-		var tables = this;
+	$.fn.sort = function(options) {
+		var tables = this,
+
+			settings = {
+				dataKey: "sortData", // Key for accesing jQuery.data();
+			};
 
 		tables.each(function() {
 			var table = $(this);
 
-			
+			if (table.data(settings.dataKey)) {
+				var sorter = table.data(settings.dataKey);
+			}
+			else {
+				var sorter = new Sorter(table);
+				table.data(settings.dataKey, sorter);
+			}
 		});
 	}
 })(jQuery);
