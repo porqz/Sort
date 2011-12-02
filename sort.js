@@ -12,13 +12,14 @@
 				return this.extracts.default.apply(from);
 			}
 		},
-
+			
+		// Methods which extracts sortable data from row
 		extracts: {
 			default: function() {
 				return $.trim(this.text());
 			}
 		},
-
+		
 		addExtract: function(name, extractFunction) {
 			this.extracts[name] = extractFunction;
 		},
