@@ -28,7 +28,10 @@
 
 	// Object which provides sorting
 	var Sorter = function(table) {
-		this.rows = this.getRows(table);
+		if (typeof table != "undefined") {
+			this.rows = this.getRows(table);
+		}
+
 		this.extractor = new Extractor;
 	};
 
@@ -93,7 +96,7 @@
 	// Option is object:
 	// { 
 	// how: [{ by: "title" }, { by: "trackNumber", inversed: true }], 
-	// getRows: function(table) {…}, // optional
+	// getRows: function() {…}, // optional
 	// extracts: { // optional
 	// 	 	 title: function() {…},
 	// 	 	 trackNumber: function() {…}
@@ -113,8 +116,8 @@
 						processedOptions.getRows = options.getRows;
 					}
 					else {
-						processedOptions.getRows = function(table) {
-							var table = (table.children("tbody").length && table.children("tbody")) || table,
+						processedOptions.getRows = function() {
+							var table = ($(this).children("tbody").length && $(this).children("tbody")) || $(this),
 								rows = [];
 
 							table.children("tr").each(function() {
@@ -146,10 +149,12 @@
 				},
 
 				updateTable: function(table, rows) {
-					for (var row in rows) {
+					$(rows).each(function() {
+						var row = $(this);
+
 						$(row).detach();
 						table.append(row);
-					}
+					});
 				}
 			};
 
@@ -171,12 +176,12 @@
 			var table = $(this);
 
 			if (!table.data(settings.dataKey)) {
-				table.data(settings.dataKey, new Sorter(table));
+				table.data(settings.dataKey, new Sorter());
 			}
 
 			var sorter = table.data(settings.dataKey);
 
-			sorter.getRows = options.getRows;
+			sorter.rows = options.getRows.apply(table);
 
 			for (var extractKey in options.extracts) {
 				sorter.extractor.addExtract(extractKey, options.extracts[extractKey]);
