@@ -90,6 +90,15 @@
 	}
 
 
+	// Option is object:
+	// { 
+	// how: [{ by: "title" }, { by: "trackNumber", inversed: true }], 
+	// getRows: function(table) {…}, // optional
+	// extracts: { // optional
+	// 	 	 title: function() {…},
+	// 	 	 trackNumber: function() {…}
+	// 	 }
+	// }
 	$.fn.sort = function(options) {
 		var tables = this,
 
@@ -97,16 +106,58 @@
 				dataKey: "sortData", // Key for accesing jQuery.data();
 			};
 
+
+		// Arguments processing
+		if (typeof options == "undefined") {
+			throw "Initialization error: Sorter must init with arguments.";
+		}
+		else {
+			if ("how" in options) {
+				var how = (!Array.isArray(options.how) && [options.how]) || options.how;
+			}
+			else {
+				throw "Initialization error: Sorter must know how it should sort.";
+			}
+
+			var getRows = options.getRows || function(table) {
+					var table = (table.children("tbody").length && table.children("tbody")) || table,
+						rows = [];
+
+					table.children("tr").each(function() {
+						var row = $(this);
+
+						if (!row.children("th").length) {
+							rows.push(row);
+						}
+					});
+					
+					return rows;
+				};
+
+			var extracts = options.extracts || {};
+
+			extracts.default = function(extractAs) {
+				var row = this;
+
+				return $.trim(row.children().filter("." + extractAs).text());
+			};
+		}
+
+
 		tables.each(function() {
 			var table = $(this);
 
-			if (table.data(settings.dataKey)) {
-				var sorter = table.data(settings.dataKey);
+			if (!table.data(settings.dataKey)) {
+				table.data(settings.dataKey, new Sorter(table));
 			}
-			else {
-				var sorter = new Sorter(table);
-				table.data(settings.dataKey, sorter);
+
+			var sorter = table.data(settings.dataKey);
+
+			for (var extract in extracts) {
+				sorter.extractor.addExtract(extract, extracts[extract]);
 			}
+
+			
 		});
 	}
 })(jQuery);
