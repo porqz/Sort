@@ -152,7 +152,7 @@
 					$(rows).each(function() {
 						var row = $(this);
 
-						$(row).detach();
+						row.detach();
 						table.append(row);
 					});
 				}
