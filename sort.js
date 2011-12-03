@@ -100,43 +100,64 @@
 	// 	 }
 	// }
 	$.fn.sort = function(options) {
+
+		var utils = {
+				processOptions: function(options) {
+					var processedOptions = {};
+
+					if ("how" in options) {
+						processedOptions.how = (!Array.isArray(options.how) && [options.how]) || options.how;
+					}
+
+					if ("getRows" in options) {
+						processedOptions.getRows = options.getRows;
+					}
+					else {
+						processedOptions.getRows = function(table) {
+							var table = (table.children("tbody").length && table.children("tbody")) || table,
+								rows = [];
+
+							table.children("tr").each(function() {
+								var row = $(this);
+
+								if (!row.children("th").length) {
+									rows.push(row);
+								}
+							});
+							
+							return rows;
+						};
+					}
+
+					if ("extracts" in options) {
+						processedOptions.extracts = options.extracts;
+					}
+					else {
+						processedOptions.extracts = {};
+					}
+
+					processedOptions.extracts.default = function(extractAs) {
+						var row = this;
+
+						return $.trim(row.children().filter("." + extractAs).text());
+					};
+
+					return processedOptions;
+				},
+
+				updateTable: function(table, rows) {
+					return table;
+				}
+			};
+
 		// Arguments processing
 		if (typeof options == "undefined") {
 			throw "Initialization error: Sorter must init with arguments.";
 		}
 		else {
-			if ("how" in options) {
-				var how = (!Array.isArray(options.how) && [options.how]) || options.how;
-			}
-			else {
-				throw "Initialization error: Sorter must know how it should sort.";
-			}
-
-			var getRows = options.getRows || function(table) {
-					var table = (table.children("tbody").length && table.children("tbody")) || table,
-						rows = [];
-
-					table.children("tr").each(function() {
-						var row = $(this);
-
-						if (!row.children("th").length) {
-							rows.push(row);
-						}
-					});
-					
-					return rows;
-				};
-
-			var extracts = options.extracts || {};
-
-			extracts.default = function(extractAs) {
-				var row = this;
-
-				return $.trim(row.children().filter("." + extractAs).text());
-			};
+			var options = utils.processOptions(options);
 		}
-
-
+			
 		var tables = this,
 
 			settings = {
@@ -152,11 +173,17 @@
 
 			var sorter = table.data(settings.dataKey);
 
-			sorter.getRows = getRows;
+			sorter.getRows = options.getRows;
 
-			for (var extractKey in extracts) {
-				sorter.extractor.addExtract(extractKey, extracts[extractKey]);
+			for (var extractKey in options.extracts) {
+				sorter.extractor.addExtract(extractKey, options.extracts[extractKey]);
 			}
+
+			// Sorting
+			var sortedRows = sorter.sort(options.how);
+			utils.updateTable(table, sortedRows);
 		});
+
+		return tables;
 	}
 })(jQuery);
