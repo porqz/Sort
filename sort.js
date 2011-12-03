@@ -100,13 +100,6 @@
 	// 	 }
 	// }
 	$.fn.sort = function(options) {
-		var tables = this,
-
-			settings = {
-				dataKey: "sortData", // Key for accesing jQuery.data();
-			};
-
-
 		// Arguments processing
 		if (typeof options == "undefined") {
 			throw "Initialization error: Sorter must init with arguments.";
@@ -143,6 +136,12 @@
 			};
 		}
 
+
+		var tables = this,
+
+			settings = {
+				dataKey: "sortData", // Key for accesing jQuery.data();
+			};
 
 		tables.each(function() {
 			var table = $(this);
