@@ -121,7 +121,7 @@
 								var row = $(this);
 
 								if (!row.children("th").length) {
-									rows.push(row);
+									rows.push(this);
 								}
 							});
 							
@@ -137,7 +137,7 @@
 					}
 
 					processedOptions.extracts.default = function(extractAs) {
-						var row = this;
+						var row = $(this);
 
 						return $.trim(row.children().filter("." + extractAs).text());
 					};
@@ -146,7 +146,10 @@
 				},
 
 				updateTable: function(table, rows) {
-					return table;
+					for (var row in rows) {
+						$(row).detach();
+						table.append(row);
+					}
 				}
 			};
 
