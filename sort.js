@@ -152,11 +152,11 @@
 
 			var sorter = table.data(settings.dataKey);
 
-			for (var extract in extracts) {
-				sorter.extractor.addExtract(extract, extracts[extract]);
-			}
+			sorter.getRows = getRows;
 
-			
+			for (var extractKey in extracts) {
+				sorter.extractor.addExtract(extractKey, extracts[extractKey]);
+			}
 		});
 	}
 })(jQuery);
