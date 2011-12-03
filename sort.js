@@ -9,14 +9,14 @@
 				return this.extracts[as].apply(from);
 			}
 			else {
-				return this.extracts.default.apply(from);
+				return this.extracts.default.call(from, as);
 			}
 		},
 			
 		// Methods which extracts sortable data from row
 		extracts: {
-			default: function() {
-				return $.trim(this.text());
+			default: function(as) {
+				return this[as];
 			}
 		},
 		
@@ -34,25 +34,23 @@
 
 	Sorter.prototype = {
 		// Should return an array
-		getRows: function(table) {
-			var rows = $(table).children("tr").toArray();
-
-			return rows;
+		getRows: function(array) {
+			return array;
 		},
 
 		compare: function(a, b) {
-			if (typeof a == "undefined") {
-				return 1;
-			}
-
-			if (typeof b == "undefined") {
-				return -1;
-			}
-
 			if (a == b) {
 				return 0;
 			}
 			else {
+				if (typeof a == "undefined") {
+					return 1;
+				}
+
+				if (typeof b == "undefined") {
+					return -1;
+				}
+
 				if (a > b) {
 					return 1;
 				}
