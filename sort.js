@@ -181,7 +181,6 @@
 						row.detach();
 						table.append(row);
 					});
-					};
 				}
 			};
 
