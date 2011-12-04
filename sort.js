@@ -108,10 +108,12 @@
 				processOptions: function(options) {
 					var processedOptions = {};
 
+					// How
 					if ("how" in options) {
 						processedOptions.how = (!Array.isArray(options.how) && [options.how]) || options.how;
 					}
 
+					// getRows
 					if ("getRows" in options) {
 						processedOptions.getRows = options.getRows;
 					}
@@ -121,10 +123,33 @@
 								rows = [];
 
 							table.children("tr").each(function() {
-								var row = $(this);
+								var row = $(this),
+									rowspan = 1;
 
-								if (!row.children("th").length) {
-									rows.push(this);
+								if (row.children("th").length)
+									return;
+
+								row.children("td").each(function() {
+									var cell = $(this),
+										cellRowspan = Number(cell.attr("rowspan"));
+
+									if (cellRowspan && cellRowspan > rowspan) {
+										rowspan = cellRowspan;
+									}
+								});
+
+								if (!rowspan) {
+									rows.push(row[0]);
+								}
+								else {
+									var mergedRows = [row[0]];
+
+									for (var i = 1; i < rowspan; i++) {
+										var nextRow = $(mergedRows[mergedRows.length - 1]).next()[0];
+										mergedRows.push(nextRow);
+									};
+
+									rows.push(mergedRows);
 								}
 							});
 							
@@ -132,6 +157,7 @@
 						};
 					}
 
+					// Extracts
 					if ("extracts" in options) {
 						processedOptions.extracts = options.extracts;
 					}
@@ -155,6 +181,7 @@
 						row.detach();
 						table.append(row);
 					});
+					};
 				}
 			};
 
@@ -176,12 +203,10 @@
 			var table = $(this);
 
 			if (!table.data(settings.dataKey)) {
-				table.data(settings.dataKey, new Sorter());
+				table.data(settings.dataKey, new Sorter(options.getRows.apply(table)));
 			}
 
 			var sorter = table.data(settings.dataKey);
-
-			sorter.rows = options.getRows.apply(table);
 
 			for (var extractKey in options.extracts) {
 				sorter.extractor.addExtract(extractKey, options.extracts[extractKey]);
