@@ -119,15 +119,21 @@
 					}
 					else {
 						processedOptions.getRows = function() {
-							var table = ($(this).children("tbody").length && $(this).children("tbody")) || $(this),
-								rows = [];
+							var rows = [],
+								table = $(this);
 
-							table.children("tr").each(function() {
-								var row = $(this),
+							if (table.children("tbody").length) {
+								table = table.children("tbody");
+							}
+
+							var trs = table.children("tr").toArray();
+
+							for (var i = 0; i < trs.length; i++) {
+								var row = $(trs[i]),
 									rowspan = 1;
 
-								if (row.children("th").length)
-									return;
+								// Table head
+								if (row.children("th").length) continue;
 
 								row.children("td").each(function() {
 									var cell = $(this),
@@ -144,15 +150,16 @@
 								else {
 									var mergedRows = [row[0]];
 
-									for (var i = 1; i < rowspan; i++) {
+									for (var j = 1; j < rowspan; j++) {
 										var nextRow = $(mergedRows[mergedRows.length - 1]).next()[0];
 										mergedRows.push(nextRow);
 									};
 
 									rows.push(mergedRows);
+									i = i + rowspan - 1;
 								}
-							});
-							
+							};
+
 							return rows;
 						};
 					}
