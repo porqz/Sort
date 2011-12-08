@@ -22,7 +22,7 @@
 		
 		addExtract: function(name, extractFunction) {
 			this.extracts[name] = extractFunction;
-		},
+		}
 	};
 
 
