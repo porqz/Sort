@@ -150,13 +150,12 @@
 								else {
 									var mergedRows = [row[0]];
 
-									for (var j = 1; j < rowspan; j++) {
+									for (var lastRow = i + rowspan - 1; i < lastRow; i++) {
 										var nextRow = $(mergedRows[mergedRows.length - 1]).next()[0];
 										mergedRows.push(nextRow);
 									};
 
 									rows.push(mergedRows);
-									i = i + rowspan - 1;
 								}
 							};
 
