@@ -1,10 +1,10 @@
-(function($) {
+(function ($) {
 
 	// Object which provides extracting data from table
-	var Extractor = function() {};
+	var Extractor = function () {};
 
 	Extractor.prototype = {
-		extract: function(from, as) {
+		extract: function (from, as) {
 			if (typeof this.extracts[as] != "undefined") {
 				return this.extracts[as].apply(from);
 			}
@@ -15,19 +15,19 @@
 			
 		// Methods which extracts sortable data from row
 		extracts: {
-			default: function(as) {
+			default: function (as) {
 				return this[as];
 			}
 		},
 		
-		addExtract: function(name, extractFunction) {
+		addExtract: function (name, extractFunction) {
 			this.extracts[name] = extractFunction;
 		}
 	};
 
 
 	// Object which provides sorting
-	var Sorter = function(table) {
+	var Sorter = function (table) {
 		if (typeof table != "undefined") {
 			this.rows = this.getRows(table);
 		}
@@ -37,11 +37,11 @@
 
 	Sorter.prototype = {
 		// Should return an array
-		getRows: function(array) {
+		getRows: function (array) {
 			return array;
 		},
 
-		compare: function(a, b) {
+		compare: function (a, b) {
 			if (a == b) {
 				return 0;
 			}
@@ -65,10 +65,10 @@
 
 		// How is an array of objects,
 		// example: [{ by: "title" }, { by: "trackNumber", inversed: true }]
-		sort: function(how) {
+		sort: function (how) {
 			var $this = this;
 
-			$this.rows.sort(function(a, b) {
+			$this.rows.sort(function (a, b) {
 				var compareResult = 0;
 
 				for (var i = 0; i < how.length && compareResult == 0; i++) {
@@ -96,16 +96,16 @@
 	// Option is object:
 	// { 
 	// how: [{ by: "title" }, { by: "trackNumber", inversed: true }], 
-	// getRows: function() {…}, // optional
+	// getRows: function () {…}, // optional
 	// extracts: { // optional
-	// 	 	 title: function() {…},
-	// 	 	 trackNumber: function() {…}
+	// 	 	 title: function () {…},
+	// 	 	 trackNumber: function () {…}
 	// 	 }
 	// }
-	$.fn.sort = function(options) {
+	$.fn.sort = function (options) {
 
 		var utils = {
-				processOptions: function(options) {
+				processOptions: function (options) {
 					var processedOptions = {};
 
 					// How
@@ -118,7 +118,7 @@
 						processedOptions.getRows = options.getRows;
 					}
 					else {
-						processedOptions.getRows = function() {
+						processedOptions.getRows = function () {
 							var rows = [],
 								table = $(this);
 
@@ -135,7 +135,7 @@
 								// Table head
 								if (row.children("th").length) continue;
 
-								row.children("td").each(function() {
+								row.children("td").each(function () {
 									var cell = $(this),
 										cellRowspan = Number(cell.attr("rowspan"));
 
@@ -171,7 +171,7 @@
 						processedOptions.extracts = {};
 					}
 
-					processedOptions.extracts.default = function(extractAs) {
+					processedOptions.extracts.default = function (extractAs) {
 						var row = $(this);
 
 						return $.trim(row.children().filter("." + extractAs).text());
@@ -180,8 +180,8 @@
 					return processedOptions;
 				},
 
-				updateTable: function(table, rows) {
-					$(rows).each(function() {
+				updateTable: function (table, rows) {
+					$(rows).each(function () {
 						var row = $(this);
 
 						row.detach();
@@ -204,7 +204,7 @@
 				dataKey: "sortData", // Key for accesing jQuery.data();
 			};
 
-		tables.each(function() {
+		tables.each(function () {
 			var table = $(this);
 
 			if (!table.data(settings.dataKey)) {
