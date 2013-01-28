@@ -165,12 +165,13 @@
 
 					// Extracts
 					processedOptions.extracts = ("extracts" in options) ? options.extracts : {};
+					processedOptions.classPrefix = ("classPrefix" in options) ? options.classPrefix : "";
 
 					if (!("default" in processedOptions.extracts)) {
 						processedOptions.extracts.default = function (extractAs) {
 							var row = $(this);
 
-							return $.trim(row.children().filter("." + extractAs).text());
+							return $.trim(row.children().filter("." + processedOptions.classPrefix + extractAs).text());
 						};
 					}
 
