@@ -9,13 +9,13 @@
 				return this.extracts[as].apply(from);
 			}
 			else {
-				return this.extracts.default.call(from, as);
+				return this.extracts["default"].call(from, as);
 			}
 		},
 			
 		// Methods which extracts sortable data from row
 		extracts: {
-			default: function (as) {
+			"default": function (as) {
 				return this[as];
 			}
 		},
@@ -71,7 +71,7 @@
 			that.rows.sort(function (a, b) {
 				var compareResult = 0;
 
-				for (var i = 0; i < how.length && compareResult == 0; i++) {
+				for (var i = 0; i < how.length && compareResult === 0; i++) {
 					var inversed = !!how[i].inversed,
 
 						extractedA = that.extractor.extract(a, how[i].by),
@@ -90,7 +90,7 @@
 
 			return that.rows;
 		}
-	}
+	};
 
 
 	// Option is object:
@@ -153,11 +153,11 @@
 									for (var lastRow = i + rowspan - 1; i < lastRow; i++) {
 										var nextRow = $(mergedRows[mergedRows.length - 1]).next()[0];
 										mergedRows.push(nextRow);
-									};
+									}
 
 									rows.push(mergedRows);
 								}
-							};
+							}
 
 							return rows;
 						};
@@ -168,7 +168,7 @@
 					processedOptions.classPrefix = ("classPrefix" in options) ? options.classPrefix : "";
 
 					if (!("default" in processedOptions.extracts)) {
-						processedOptions.extracts.default = function (extractAs) {
+						processedOptions.extracts["default"] = function (extractAs) {
 							var row = $(this);
 
 							return $.trim(row.children().filter("." + processedOptions.classPrefix + extractAs).text());
@@ -195,13 +195,13 @@
 			throw "Initialization error: Sorter must init with arguments.";
 		}
 		else {
-			var options = utils.processOptions(options);
+			options = utils.processOptions(options);
 		}
 			
 		var tables = this,
 
 			settings = {
-				dataKey: "sortData", // Key for accesing jQuery.data();
+				dataKey: "sortData" // Key for accesing jQuery.data();
 			};
 
 		tables.each(function () {
@@ -223,5 +223,6 @@
 		});
 
 		return tables;
-	}
+	};
+
 })(jQuery);
