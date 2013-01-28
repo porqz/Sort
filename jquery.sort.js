@@ -184,6 +184,8 @@
 						row.detach();
 						table.append(row);
 					});
+
+					table.trigger("update");
 				}
 			};
 
