@@ -42,8 +42,8 @@ $(document).ready(function () {
 								(Number($6) || "0"); // Minutes
 						});
 
-					if (dateString.length < 10) {
-						dateString = "3000 1 1 0 0"; // 3000-th year, I think, that is enough
+					if (dateString.length < 10) { // If we can’t parse, so date is not important, we will do task in the future
+						dateString = "3000 1 1 0 0"; // 3000-th year, I think, is enough
 					}
 
 					var dateArray = dateString.split(" ");
@@ -57,7 +57,7 @@ $(document).ready(function () {
 				},
 
 				executor: function () {
-					// Sort by last name, than first
+					// Sort by last name, then first
 					return $.trim($(this).children().eq(3).text()).split(" ").reverse().join(" ");
 				}
 			}
