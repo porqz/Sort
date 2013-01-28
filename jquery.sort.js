@@ -63,7 +63,7 @@
 			}
 		},
 
-		// How is an array of objects,
+		// `How` is an array of objects,
 		// example: [{ by: "title" }, { by: "trackNumber", inversed: true }]
 		sort: function (how) {
 			var $this = this;
@@ -126,10 +126,10 @@
 								table = table.children("tbody");
 							}
 
-							var trs = table.children("tr").toArray();
+							var trs = table.children("tr");
 
 							for (var i = 0; i < trs.length; i++) {
-								var row = $(trs[i]),
+								var row = trs.eq(i),
 									rowspan = 1;
 
 								// Table head
@@ -164,18 +164,15 @@
 					}
 
 					// Extracts
-					if ("extracts" in options) {
-						processedOptions.extracts = options.extracts;
-					}
-					else {
-						processedOptions.extracts = {};
-					}
+					processedOptions.extracts = ("extracts" in options) ? options.extracts : {};
 
-					processedOptions.extracts.default = function (extractAs) {
-						var row = $(this);
+					if (!("default" in processedOptions.extracts)) {
+						processedOptions.extracts.default = function (extractAs) {
+							var row = $(this);
 
-						return $.trim(row.children().filter("." + extractAs).text());
-					};
+							return $.trim(row.children().filter("." + extractAs).text());
+						};
+					}
 
 					return processedOptions;
 				},
