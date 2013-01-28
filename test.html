@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+		<title>jQuery Sort Plugin Test Page</title>
+		
+		<script src="http://code.jquery.com/jquery-1.9.0.min.js" type="text/javascript"></script>
+		<script src="./jquery.sort.js" type="text/javascript"></script>
+		<script src="./jquery.sort.test.js" type="text/javascript"></script>
+
+		<style type="text/css">
+			body {
+				font-family: "Helvetica Neue", Arial, sans-serif;
+				font-size: 13px;
+				padding: 20px;
+			}
+
+				h1 {
+					margin: 0 0 20px;
+				}
+
+				.sortable-table {
+					border-collapse: collapse;
+					border-spacing: 0;
+				}
+
+					.sortable-table tr {
+						vertical-align: top;
+					}
+
+						.sortable-table th,
+						.sortable-table td {
+							text-align: left;
+							border: 1px solid #ccc;
+						}
+
+						.sortable-table th {
+							background-color: #F8F8F8;
+						}
+
+						.sortable-table td {
+							padding: 8px 15px;
+						}
+
+							.sortable-table__sort-link {
+								color: #000;
+								text-decoration: none;
+								display: block;
+								padding: 8px 15px;
+							}
+
+							.sortable-table__sort-link:hover {
+								color: #5e5e5e;
+							}
+
+								.sortable-table__sort-link .link__title {
+									border-bottom: 1px dotted #000;
+								}
+
+								.sortable-table__sort-link .link__title {
+									border-bottom-color: #5e5e5e;
+								}
+
+								.sortable-table__sort-link .link__icon {
+									display: inline-block;
+									width: 20px;
+								}
+
+								.sortable-table__sort-link .link__icon::after {
+									color: #424242;
+									font-size: 10px;
+								}
+
+								.sortable-table__sort-link:hover .link__icon::after {
+									color: #696969;
+								}
+
+								.sortable-table__cell_sorted_asc .link__icon::after {
+									content: "▲";
+								}
+
+								.sortable-table__cell_sorted_desc .link__icon::after {
+									content: "▼";
+								}
+		</style>
+	</head>
+	<body>
+		<h1>Sort plugin test page</h1>
+		<table class="sortable-table">
+			<tr>
+				<th class="sortable-table__cell sortable-table__cell_name_task">
+					<a href="#" class="sortable-table__sort-link link">
+						<span class="link__title">Task description</span>
+						<span class="link__icon"></span>
+					</a>
+				</th>
+				<th class="sortable-table__cell sortable-table__cell_name_due">
+					<a href="#" class="sortable-table__sort-link">
+						<span class="link__title">Due</span>
+						<span class="link__icon"></span>
+					</a>
+				</th>
+				<th class="sortable-table__cell sortable-table__cell_sorted_desc sortable-table__cell_name_priority">
+					<a href="#" class="sortable-table__sort-link">
+						<span class="link__title">Priority</span>
+						<span class="link__icon"></span>
+					</a>
+				</th>
+				<th class="sortable-table__cell sortable-table__cell_name_executor">
+					<a href="#" class="sortable-table__sort-link">
+						<span class="link__title">Executor</span>
+						<span class="link__icon"></span>
+					</a>
+				</th>
+			</tr>
+			<tr>
+				<td>Mark up test page</td>
+				<td>28.01.2013 11:30</td>
+				<td>6</td>
+				<td>Alexander Belov</td>
+			</tr>
+			<tr>
+				<td>Write test script</td>
+				<td>28.01.2013 15:00</td>
+				<td>6</td>
+				<td>Alexander Belov</td>
+			</tr>
+			<tr>
+				<td>Commit and push tests</td>
+				<td>28.01.2013 13:00</td>
+				<td>5</td>
+				<td>Alexander Belov</td>
+			</tr>
+			<tr>
+				<td>Refactor Sort plugin code</td>
+				<td>29.01.2013</td>
+				<td>4</td>
+				<td>Alexander Belov</td>
+			</tr>
+			<tr>
+				<td>Commit and push refactoring changes</td>
+				<td>01.02.2013</td>
+				<td>3</td>
+				<td>Alexander Belov</td>
+			</tr>
+			<tr>
+				<td>Tweet the results</td>
+				<td>&ndash;</td>
+				<td>1</td>
+				<td>Alexander Belov</td>
+			</tr>
+			<tr>
+				<td>Get a feedback</td>
+				<td>&ndash;</td>
+				<td>1</td>
+				<td>Anatoly Matov</td>
+			</tr>
+		</table>
+	</body>
+</html>
