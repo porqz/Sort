@@ -36,7 +36,7 @@ $(document).ready(function () {
 						// Parsing job is always hard
 						dateString = rawDateString.replace(/(\d+?)\.(\d+?).(\d+?)\b\s?((\d+?):(\d+?)?)?\b/g, function($0, $1, $2, $3, $4, $5, $6) {
 							return (Number($3) || "0") + " " + // Year
-								(Number($2) || "0") + " " + // Month
+								(Number($2) || "1") + " " + // Month
 								(Number($1) || "0") + " " + // Day
 								(Number($5) || "0") + " " + // Hours
 								(Number($6) || "0"); // Minutes
