@@ -66,29 +66,29 @@
 		// `How` is an array of objects,
 		// example: [{ by: "title" }, { by: "trackNumber", inversed: true }]
 		sort: function (how) {
-			var $this = this;
+			var that = this;
 
-			$this.rows.sort(function (a, b) {
+			that.rows.sort(function (a, b) {
 				var compareResult = 0;
 
 				for (var i = 0; i < how.length && compareResult == 0; i++) {
 					var inversed = !!how[i].inversed,
 
-						extractedA = $this.extractor.extract(a, how[i].by),
-						extractedB = $this.extractor.extract(b, how[i].by);
+						extractedA = that.extractor.extract(a, how[i].by),
+						extractedB = that.extractor.extract(b, how[i].by);
 
 					if (inversed) {
-						compareResult = $this.compare(extractedB, extractedA);
+						compareResult = that.compare(extractedB, extractedA);
 					}
 					else {
-						compareResult = $this.compare(extractedA, extractedB);
+						compareResult = that.compare(extractedA, extractedB);
 					}
 				}
 				
 				return compareResult;
 			});
 
-			return $this.rows;
+			return that.rows;
 		}
 	}
 
